@@ -1,5 +1,6 @@
 package com.udacity.baking.baker.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.udacity.baking.baker.api.HttpRecipesClient;
 import com.udacity.baking.baker.api.RecipesClient;
 import com.udacity.baking.baker.api.RetrofitAPIService;
 import com.udacity.baking.baker.databinding.FragmentRecipesBinding;
+import com.udacity.baking.baker.detail.RecipeDetailActivity;
 import com.udacity.baking.baker.model.Recipe;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class RecipesFragment extends Fragment implements RecipesAdapter.RecipesClickListener {
     private static final int VA_INDEX_CONTENT_STATE = 0;
@@ -98,7 +99,10 @@ public class RecipesFragment extends Fragment implements RecipesAdapter.RecipesC
 
     @Override
     public void onRecipeClick(@NonNull Recipe recipe) {
-        Toast.makeText(getActivity(), recipe.name, Toast.LENGTH_SHORT).show();
+        Intent intent = RecipeDetailActivity.newInstance(getActivity(), recipe);
+        startActivity(intent);
+
+//        RecipeDetailActivity.Builder.newInstance(getActivity()).setRecipe(recipe).buildAndStart();
     }
 
     private void bindRecipes() {
