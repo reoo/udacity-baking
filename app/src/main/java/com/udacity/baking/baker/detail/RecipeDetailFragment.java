@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.udacity.baking.baker.databinding.RecipeDetailFragmentBinding;
 import com.udacity.baking.baker.model.Recipe;
+import com.udacity.baking.baker.model.Step;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,8 +71,8 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
     }
 
     @Override
-    public void onRecipeClick(@NonNull Recipe recipe) {
-
+    public void onStepClick(@NonNull Step step) {
+        Toast.makeText(getActivity(), step.shortDescription, Toast.LENGTH_SHORT).show();
     }
 
     private void restoreInstanceState(@Nullable Bundle savedInstanceState) {

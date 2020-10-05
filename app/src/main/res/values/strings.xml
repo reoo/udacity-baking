@@ -3,4 +3,5 @@
     <string name="recipes_empty_state_message">There is no information at this time...\nCheck back soon</string>
     <string name="item_recipe_servings">%d</string>
     <string name="item_recipe_ingredients_title">%d Ingredients</string>
+    <string name="item_recipe_detail_steps_header">%d Steps</string>
 </resources>
