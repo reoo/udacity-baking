@@ -1,10 +1,10 @@
 package com.udacity.baking.baker.detail;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.udacity.baking.baker.databinding.RecipeDetailFragmentBinding;
 import com.udacity.baking.baker.model.Recipe;
@@ -24,6 +24,12 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
     private RecipeDetailFragmentBinding binding;
     @Nullable
     private Recipe recipe;
+    @Nullable
+    private RecipeDetailListener listener;
+
+    public interface RecipeDetailListener {
+        void onStepClick(@NonNull Step step);
+    }
 
     public static RecipeDetailFragment newInstance(@Nullable Recipe recipe) {
         Bundle bundle = new Bundle();
@@ -65,6 +71,20 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof RecipeDetailListener) {
+            listener = (RecipeDetailListener) context;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(EXTRA_RECIPE, recipe);
@@ -72,7 +92,9 @@ public class RecipeDetailFragment extends Fragment implements RecipeDetailAdapte
 
     @Override
     public void onStepClick(@NonNull Step step) {
-        Toast.makeText(getActivity(), step.shortDescription, Toast.LENGTH_SHORT).show();
+        if (listener != null) {
+            listener.onStepClick(step);
+        }
     }
 
     private void restoreInstanceState(@Nullable Bundle savedInstanceState) {

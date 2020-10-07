@@ -1,20 +1,20 @@
 package com.udacity.baking.baker.detail;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import com.udacity.baking.baker.R;
+import com.udacity.baking.baker.model.Recipe;
+import com.udacity.baking.baker.model.Step;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
-import com.udacity.baking.baker.R;
-import com.udacity.baking.baker.databinding.RecipeDetailFragmentBinding;
-import com.udacity.baking.baker.model.Recipe;
-
-public class RecipeDetailActivity extends AppCompatActivity {
+public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailFragment.RecipeDetailListener {
     private static final String EXTRA_RECIPE = "EXTRA_RECIPE";
 
     @Nullable
@@ -53,6 +53,22 @@ public class RecipeDetailActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(EXTRA_RECIPE, recipe);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onStepClick(@NonNull Step step) {
+        Fragment fragment = StepDetailFragment.newInstance(step);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.recipe_detail_fragment_container, fragment, StepDetailFragment.TAG)
+                .addToBackStack(StepDetailFragment.TAG)
+                .commit();
     }
 
     private void restoreInstanceState(@Nullable Bundle bundle) {
